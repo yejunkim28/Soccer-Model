@@ -1,0 +1,23 @@
+# Virtual environments
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+
+# Data & outputs
+data/
+output/
+
+# Models & artifacts
+models/
+*.pkl
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Environment files
+.env
