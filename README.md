@@ -43,6 +43,7 @@ Each stage can be modified or retrained independently.
 
 ## Directory Structure
 
+```bash
 Coding_Project/
 ├── data/
 │ ├── years/ # Raw season-level CSVs (1995–2024)
@@ -78,6 +79,7 @@ Coding_Project/
 ├── variables.py # Shared constants
 ├── requirements.txt
 └── README.md
+```
 
 **Design rule**
 
