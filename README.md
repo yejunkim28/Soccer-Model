@@ -55,6 +55,7 @@ Coding_Project/
 │ │ │ ├── artifacts/ # Trained prediction models (per window)
 │ │ │ └── metrics/ # Evaluation metrics (per target, per window)
 │ │ └── model_2/
+│ │
 │ └── preprocessing/
 │ ├── model_1/ # Models for filling missing values
 │ └── model_2/
