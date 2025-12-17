@@ -1,9 +1,8 @@
-import os
 import warnings
 import pandas as pd
 import soccerdata as sd
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', 10)
+from src.config import YEARS_DATA_DIR, FBREF_TOTAL_DIR, PLAYERS_DATA_DIR, TOTAL_FIELDERS_PATH
+
 warnings.filterwarnings("ignore")
 
 print("HELLO")
@@ -19,13 +18,8 @@ class DataCollection:
         self.list_stats = DataCollection.list_stats
         self.league = DataCollection.league
 
-    def create_dirs(self):
-        os.mkdir("/Users/lionlucky7/Desktop/Coding_Project/data")
-        os.mkdir("/Users/lionlucky7/Desktop/Coding_Project/data/years")
-        os.mkdir("/Users/lionlucky7/Desktop/Coding_Project/data/fbref_total_fielders")
-        os.mkdir("/Users/lionlucky7/Desktop/Coding_Project/data/players")
-
     def individual_stats(self):
+        """Collect individual player statistics for each year."""
         for year in self.years:
 
             fbref = sd.FBref(
@@ -62,41 +56,25 @@ class DataCollection:
 
             print("All Individual Data Collected")
 
-            total_others.to_csv(
-                f"/Users/lionlucky7/Desktop/Coding_Project/data/years/fielders_{year}.csv", index=False)
+            # Use config path instead of hard-coded path
+            output_path = YEARS_DATA_DIR / f"fielders_{year}.csv"
+            total_others.to_csv(output_path, index=False)
 
             print("Data Saved for Year:", year)
 
     def save_total(self):
+        """Combine all yearly data into one total file."""
         total_df = pd.DataFrame()
+        
         for i in range(1995, 2025):
-            df = pd.read_csv(
-                f"/Users/lionlucky7/Desktop/Coding_Project/data/years/fielders_{i}.csv")
+            file_path = YEARS_DATA_DIR / f"fielders_{i}.csv"
+            df = pd.read_csv(file_path)
             total_df = pd.concat([total_df, df], ignore_index=True, axis=0)
 
-        total_df.to_csv(
-            f"/Users/lionlucky7/Desktop/Coding_Project/data/fbref_total_fielders/total_fielders.csv", index=False)
-
-    def individual_data_csv(self):
-        Fielders = pd.read_csv(
-            f"/Users/lionlucky7/Desktop/Coding_Project/data/fbref_total_fielders/total_fielders.csv", index=False)
-
-        Fielders = Fielders.drop(columns=['Unnamed: 0'])
-        Fielders = Fielders[(Fielders['season'] >= 1718) &
-                            (Fielders['season'] <= 2425)]
-
-        names = list(Fielders['player'].unique())
-
-        for name in names[::-1]:
-            df = Fielders[Fielders['player'] == name]
-            df.to_csv(
-                f"/Users/lionlucky7/Desktop/Coding_Project/data/players/{name}.csv", index=False)
+        total_df.to_csv(TOTAL_FIELDERS_PATH, index=False)
+        print(f"Total data saved to: {TOTAL_FIELDERS_PATH}")
 
 
-"""
-data = DataCollection()
-data.individual_stats()
-data.save_total()
-"""
-data = DataCollection()
-data.save_total()
+if __name__ == "__main__":
+    data = DataCollection()
+    data.save_total()
