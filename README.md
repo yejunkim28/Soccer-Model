@@ -1,220 +1,231 @@
 # Soccer Player Performance Prediction System
 
-A research-grade system for predicting **next-season football (soccer) player performance** using longitudinal match statistics from **1995–2024**.  
-The project emphasizes **temporal modeling**, **multi-output regression**, and **reproducible inference**, rather than point-estimate heuristics.
+A research-grade system for predicting **next-season football (soccer) player performance** using longitudinal match statistics from **1995–2024**.
 
-The system is built to answer one core question:
-
-> Given a player’s historical performance trajectory, what can we reasonably expect in the _next_ season?
+This project contains **two independent prediction models** with different approaches, features, and target variables. Each model is completely self-contained with its own data pipeline, training logic, and inference system.
 
 ---
 
-## Project Goals
+## Project Structure
 
-- Model player performance as a **time series**, not isolated seasons
-- Support **variable career lengths** via adaptive rolling windows
-- Predict **multiple performance metrics simultaneously**
-- Separate **data, models, logic, and outputs** cleanly
-- Enable safe iteration without breaking downstream components
+This repository uses a **model-separated architecture** where Model 1 and Model 2 are independent projects:
 
-This is not a dashboard or demo—it is an extensible modeling pipeline.
-
----
-
-## High-Level Architecture
-
-The system is divided into four strictly separated stages:
-
-1. **Data Collection**  
-   Raw season-level data ingestion and normalization
-
-2. **Preprocessing**  
-   Feature engineering and learned missing-value estimation
-
-3. **Model Training & Evaluation**  
-   Rolling-window, multi-output regression models with stored metrics
-
-4. **Inference**  
-   Automated next-season prediction using the best-valid model per player
-
-Each stage can be modified or retrained independently.
-
----
-
-## Directory Structure
-
-```bash
-Coding_Project/
-├── data/
-│ ├── years/ # Raw season-level CSVs (1995–2024)
-│ ├── fbref_total_fielders/ # Aggregated raw data
-│ └── processed_whole/ # Final merged dataset
+```
+soccer_prediction/
+├── config.py                    # Centralized path configuration
+├── setup.py                     # Creates directory structure
+├── requirements.txt             # Python dependencies
+├── variables.py                 # Shared constants (legacy)
 │
-├── models/
-│ ├── main/
-│ │ ├── model_1/
-│ │ │ ├── artifacts/ # Trained prediction models (per window)
-│ │ │ └── metrics/ # Evaluation metrics (per target, per window)
-│ │ └── model_2/
-│ │
-│ └── preprocessing/
-│ ├── model_1/ # Models for filling missing values
-│ └── model_2/
+├── model_1/                     # Model 1 - Complete pipeline
+│   ├── data/
+│   │   ├── raw/                 # Model 1 raw data
+│   │   ├── interim/             # Intermediate processing
+│   │   └── processed/           # Final features
+│   ├── models/
+│   │   ├── main/
+│   │   │   ├── artifacts/       # Trained models
+│   │   │   ├── checkpoint/      # Training checkpoints
+│   │   │   └── metrics/         # Performance metrics
+│   │   └── preprocessing/
+│   │       ├── artifacts/       # Imputation models
+│   │       └── metrics/         # Preprocessing metrics
+│   ├── src/
+│   │   ├── 01_data_collection/  # Data loading
+│   │   ├── 02_preprocessing/    # Feature engineering
+│   │   ├── 03_training/         # Model training
+│   │   └── 04_inference/        # Predictions
+│   └── notebooks/               # Exploratory analysis
 │
-├── src/
-│ ├── preprocessing/
-│ │ ├── data_collection.py
-│ │ └── preprocess.py
-│ │
-│ ├── training/
-│ │ ├── train_model_1.py
-│ │ ├── train_model_2.py
-│ │ └── evaluate.py
-│ │
-│ └── inference/
-│ └── model_runner.py
+├── model_2/                     # Model 2 - Complete pipeline
+│   ├── data/
+│   │   ├── raw/
+│   │   │   ├── yearly/          # Year-by-year data
+│   │   │   └── total_raw/       # Aggregated data
+│   │   ├── interim/
+│   │   └── processed/
+│   ├── models/
+│   │   ├── main/
+│   │   │   ├── artifacts/
+│   │   │   ├── checkpoint/
+│   │   │   └── metrics/
+│   │   └── preprocessing/
+│   │       ├── artifacts/
+│   │       └── metrics/
+│   ├── src/
+│   │   ├── data/                # Data collection & validation
+│   │   ├── features/            # Feature engineering
+│   │   ├── preprocessing/       # Data preprocessing
+│   │   ├── models/              # Model definitions
+│   │   ├── training/            # Training logic
+│   │   └── inference/           # Prediction logic
+│   ├── notebooks/
+│   └── README.md                # Model 2 documentation
 │
-├── output/ # Prediction outputs
-├── notebooks/ # Exploration/debugging only
-├── variables.py # Shared constants
-├── requirements.txt
-└── README.md
+└── outputs/                     # Shared outputs directory
+    ├── predictions/             # Model predictions
+    └── evaluation/
+        ├── model_1/             # Model 1 evaluations
+        └── model_2/             # Model 2 evaluations
 ```
 
-**Design rule**
+---
 
-- `src/` → executable logic
-- `models/` → trained artifacts and metrics
-- `data/` → immutable inputs
-- `output/` → disposable results
+## Key Design Principles
+
+### Complete Separation
+
+- **Model 1** and **Model 2** are fully independent
+- Each model has its own data, features, and logic
+- No shared code between models (except `config.py`)
+- Models can be developed, trained, and deployed separately
+
+### Structured Pipelines
+
+Each model follows a clear pipeline:
+
+1. **Data Collection** → Load and validate raw data
+2. **Preprocessing** → Clean, transform, and engineer features
+3. **Training** → Train models with different configurations
+4. **Inference** → Generate predictions for new data
+
+### Centralized Configuration
+
+- All paths managed in `config.py`
+- Use `get_model_config("model_1")` or `get_model_config("model_2")`
+- No hardcoded paths in source code
 
 ---
 
-## Data Flow
+## Getting Started
 
-### Raw → Processed
+### 1. Setup Environment
 
-- Season CSVs (e.g. `9596`, `9697`) are normalized to calendar years (`1995`, `1996`, …)
-- Player records are sorted strictly by season
-- Players with insufficient historical data are filtered early
-- Output is a single longitudinal dataset in `data/processed_whole/`
+```bash
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
----
+# Install dependencies
+pip install -r requirements.txt
 
-## Missing-Value Strategy
+# Create directory structure
+python setup.py
+```
 
-Missing values are **not** filled using simple heuristics.
+### 2. Configuration
 
-Instead:
+All paths are defined in `config.py`. The configuration provides:
 
-- A **multi-output XGBoost regression model** is trained on players with complete data
-- Only columns with demonstrable predictive signal are estimated
-- Filled values are treated as _model-derived estimates_, not ground truth
+- Model-specific data directories
+- Model artifact locations
+- Output directories
+- Helper functions for path management
 
-Preprocessing models and scalers are stored under: "models/preprocessing/"
+### 3. Working with Model 1
 
----
+```bash
+# Navigate to Model 1
+cd model_1
 
-## Modeling Strategy
+# Model 1 uses numbered workflow directories
+# Run scripts in order:
+# 01_data_collection → 02_preprocessing → 03_training → 04_inference
+```
 
-### Rolling-Window Training
+### 4. Working with Model 2
 
-Multiple models are trained using different historical windows:
+```bash
+# Navigate to Model 2
+cd model_2
 
-| Window | Interpretation          |
-| ------ | ----------------------- |
-| 3      | Short-term form         |
-| 5–7    | Medium-term development |
-| 10     | Long-term career trend  |
-
-Each model:
-
-- Uses the previous `W` seasons as features
-- Predicts **all target statistics simultaneously**
-- Is trained independently to avoid temporal leakage
-
-This avoids bias against younger players while still leveraging long careers.
-
----
-
-## Target Variables
-
-Current targets focus on **advanced per-90 and progression metrics**, including:
-
-- Shooting efficiency
-- Expected goals/assists
-- Passing and progression indicators
-- Defensive and recovery actions
-
-**Known limitation**  
-These metrics are not intuitive for non-technical audiences.
-
-**Planned direction**
-
-- Train a comprehensive internal model
-- Post-process outputs into:
-  - Basic stats (e.g. goals, assists)
-  - Intermediate metrics
-  - Advanced analytics
+# Model 2 uses clean module names
+# Access via: src/data/, src/features/, src/preprocessing/, etc.
+```
 
 ---
 
-## Training Pipeline
+## Model Comparison
 
-1. Construct rolling-window samples
-2. Train a multi-output regression model per window size
-3. Evaluate performance per target using MAE, RMSE, and R²
-4. Persist:
-   - Model artifacts (`.pkl`)
-   - Metrics (`.csv`)
-
-Artifacts are versioned by window size and stored immutably.
+| Aspect          | Model 1                            | Model 2                               |
+| --------------- | ---------------------------------- | ------------------------------------- |
+| **Structure**   | Numbered workflow (01*, 02*, ...)  | Named modules (data/, features/, ...) |
+| **Status**      | ✅ Completed                       | 🚧 In Development                     |
+| **Data Source** | Shared raw data                    | Separate yearly + total data          |
+| **Features**    | Rolling windows, temporal features | TBD - Different feature set           |
+| **Targets**     | Advanced per-90 metrics            | TBD - Different targets               |
 
 ---
 
-## Inference Pipeline
+## Common Workflows
 
-Inference predicts the _next_ season for players active in the latest year:
+### Training a Model
 
-- Only players appearing in the most recent season are considered
-- For each player:
-  - Determine the largest valid window given career length
-  - Load the corresponding trained model
-  - Generate next-season predictions
-- Outputs are consolidated into a single DataFrame and saved to `output/`
+**Model 1:**
 
-This mirrors real-world forecasting constraints.
+```python
+# From model_1 directory
+from src.training.trainer import ModelTrainer
+
+trainer = ModelTrainer(...)
+trainer.train()
+```
+
+**Model 2:**
+
+```python
+# From model_2 directory
+from src.training.trainer import Model2Trainer
+
+trainer = Model2Trainer(config={...})
+trainer.train()
+```
+
+### Making Predictions
+
+**Model 1:**
+
+```python
+from src.inference.predictor import make_predictions
+
+predictions = make_predictions(data)
+```
+
+**Model 2:**
+
+```python
+from src.inference.predictor import Model2Predictor
+
+predictor = Model2Predictor()
+predictor.load_model(path)
+predictions = predictor.predict(data)
+```
+
+---
+
+## Development Guidelines
+
+1. **Never mix model code** - Keep Model 1 and Model 2 completely separate
+2. **Use config.py** - Always use centralized paths, never hardcode
+3. **Document changes** - Update model-specific READMEs when making changes
+4. **Test independently** - Each model should work without the other
+5. **Version artifacts** - Save models with clear version/window identifiers
 
 ---
 
 ## Configuration & Reproducibility
 
-- All constants are centralized in `variables.py`
-- No implicit globals or hidden state
-- Models are deterministic given the same data and configuration
-- Retraining requires explicit script execution
+- All paths centralized in `config.py`
+- Shared constants in `variables.py` (legacy)
+- Models are deterministic given same data and configuration
+- Run `setup.py` to recreate directory structure
 
 ---
 
-## Usage Overview
+## Outputs
 
-Typical workflow:
+All predictions and evaluations are saved to the shared `outputs/` directory:
 
-1. Update or add raw data in `data/`
-2. Run preprocessing scripts
-3. Train or retrain models as needed
-4. Run inference to generate next-season predictions
-
-Notebooks are for exploration only and are not part of the production pipeline.
-
----
-
-## Philosophy
-
-This system prioritizes:
-
-- Temporal correctness over convenience
-- Explicit modeling decisions over black-box automation
-- Clear separation of concerns
-
-If a result cannot be explained or reproduced, it is considered incorrect.
+- `outputs/predictions/` - Model predictions
+- `outputs/evaluation/model_1/` - Model 1 metrics
+- `outputs/evaluation/model_2/` - Model 2 metrics
