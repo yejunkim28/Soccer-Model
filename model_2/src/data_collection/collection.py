@@ -34,7 +34,7 @@ seasons = {
 }
 
 # Use absolute path from this file's location
-SAVE_DIR = Path(__file__).parent.parent.parent / "data" / "raw" / "raw_sofifa" / "yearly"
+SAVE_DIR = Path(__file__).parent.parent.parent / "data" / "raw"  
 
 
 class SoFIFAScraper:
@@ -85,7 +85,8 @@ class SoFIFAScraper:
         
         while True:
             try:
-                driver.get(f"{self.base_url}&r={season_code}&offset={offset}")
+                url = f"{self.base_url}r={season_code}&set=true&offset={offset}"
+                driver.get(url)
                 time.sleep(3)  # Wait for page load
                 
                 WebDriverWait(driver, 20).until(
@@ -128,68 +129,22 @@ class SoFIFAScraper:
         df['season'] = year
         df['season_code'] = season_code
 
-        print(f"\n{'='*60}")
+        print(f"\n{'='*20}")
         print(f"Total rows collected: {len(df)}")
-        print(f"{'='*60}")
+        print(f"{'='*20}")
         return df
 
-
-    
     def close_driver(self, driver):
         """Close the WebDriver."""
         driver.quit()
         print("Chrome WebDriver closed")
-    
-    def collect_all(self):
-        """Combine all yearly CSV files into one master file."""
-        df_list = []
-        
-        for year in self.seasons.keys():
-            file_path = self.save_dir / f"sofifa_players_{year}.csv"
-            if file_path.exists():
-                yearly_df = pd.read_csv(file_path)
-                df_list.append(yearly_df)
-            else:
-                print(f"Warning: {file_path} not found, skipping...")
-        
-        # Combine all DataFrames at once
-        df = pd.concat(df_list, ignore_index=True)
-        
-        output_path = self.save_dir.parent / "sofifa_players_all_years.csv"
-        df.to_csv(output_path, index=False)
-        
-        print(f"All years combined ({len(df)} rows) and saved to: {output_path}")
-
-
-    def yearly_scrape(self):
-        """Scrape all seasons and save individual year files."""
-        # Ensure directory exists
-        self.save_dir.mkdir(parents=True, exist_ok=True)
-        
-        driver = self.initialize_driver()
-        
-        try:
-            for year, season_code in self.seasons.items():
-                print(f"\n{'='*60}")
-                print(f"Starting year {year} (season code: {season_code})")
-                print(f"{'='*60}")
-                
-                df = self.get_team_stats(driver, season_code, year)
-                output_path = self.save_dir / f"sofifa_players_{year}.csv"
-                df.to_csv(output_path, index=False)
-                print(f"✓ {year} data saved to: {output_path}\n")
-            
-        
-        finally:
-            # Always close driver, even if error occurs
-            self.close_driver(driver)
     
     def scrape_all_combined(self):
         """Scrape all seasons and write directly to one combined file."""
         # Ensure directory exists
         self.save_dir.mkdir(parents=True, exist_ok=True)
         
-        output_path = self.save_dir.parent / "sofifa_players_all_years.csv"
+        output_path = self.save_dir / "sofifa_players_all_years.csv"
         driver = self.initialize_driver()
         
         first_year = True
@@ -197,9 +152,12 @@ class SoFIFAScraper:
         
         try:
             for year, season_code in self.seasons.items():
-                print(f"\n{'='*60}")
+                print(f"\n{'='*20}")
                 print(f"Starting year {year} (season code: {season_code})")
-                print(f"{'='*60}")
+                print(f"{'='*20}")
+                
+                # Clear cookies between seasons to prevent caching issues
+                driver.delete_all_cookies()
                 
                 df = self.get_team_stats(driver, season_code, year)
                 
@@ -222,7 +180,15 @@ class SoFIFAScraper:
         finally:
             self.close_driver(driver)
             
-        print(f"\n{'='*60}")
+        print(f"\n{'='*20}")
         print(f"✓ All data combined: {total_rows} total rows")
         print(f"✓ Saved to: {output_path}")
-        print(f"{'='*60}")
+        print(f"\n{'='*20}")
+
+if __name__ == "__main__":
+    BASE_URL = "https://sofifa.com/players?type=all&lg%5B0%5D=13&lg%5B1%5D=31&lg%5B2%5D=19&lg%5B3%5D=53&lg%5B4%5D=16&showCol%5B0%5D=ae&showCol%5B1%5D=oa&showCol%5B2%5D=pt&showCol%5B3%5D=vl&showCol%5B4%5D=wg&showCol%5B5%5D=tt&showCol%5B6%5D=pi&showCol%5B7%5D=wi&showCol%5B8%5D=pf&showCol%5B9%5D=bo&showCol%5B10%5D=hi&showCol%5B11%5D=bp&showCol%5B12%5D=jt&showCol%5B13%5D=le&showCol%5B14%5D=gu&showCol%5B15%5D=rc&showCol%5B16%5D=cp&showCol%5B17%5D=at&showCol%5B18%5D=ps2&showCol%5B19%5D=ps1&showCol%5B20%5D=t2&showCol%5B21%5D=t1&showCol%5B22%5D=phy&showCol%5B23%5D=def&showCol%5B24%5D=pas&showCol%5B25%5D=pac&showCol%5B26%5D=dri&showCol%5B27%5D=hc&showCol%5B28%5D=bt&showCol%5B29%5D=ir&showCol%5B30%5D=aw&showCol%5B31%5D=sk&showCol%5B32%5D=dw&showCol%5B33%5D=bs&showCol%5B34%5D=sho&showCol%5B35%5D=gd&showCol%5B36%5D=sa&showCol%5B37%5D=td&showCol%5B38%5D=cj&showCol%5B39%5D=wk&showCol%5B40%5D=tc&showCol%5B41%5D=ma&showCol%5B42%5D=cm&showCol%5B43%5D=vi&showCol%5B44%5D=pe&showCol%5B45%5D=in&showCol%5B46%5D=ar&showCol%5B47%5D=po&showCol%5B48%5D=te&showCol%5B49%5D=st&showCol%5B50%5D=ju&showCol%5B51%5D=so&showCol%5B52%5D=tp&showCol%5B53%5D=sr&showCol%5B54%5D=ln&showCol%5B55%5D=ag&showCol%5B56%5D=ba&showCol%5B57%5D=re&showCol%5B58%5D=ac&showCol%5B59%5D=to&showCol%5B60%5D=sp&showCol%5B61%5D=lo&showCol%5B62%5D=cu&showCol%5B63%5D=dr&showCol%5B64%5D=fr&showCol%5B65%5D=ts&showCol%5B66%5D=he&showCol%5B67%5D=fi&showCol%5B68%5D=ta&showCol%5B69%5D=sh&showCol%5B70%5D=cr&showCol%5B71%5D=vo&showCol%5B72%5D=bl&"
+    scraper = SoFIFAScraper(seasons, BASE_URL, SAVE_DIR)
+    scraper.scrape_all_combined()
+
+
+
