@@ -12,18 +12,18 @@ from selenium.common.exceptions import TimeoutException
 
 
 seasons = {
-    2025: "250044",
-    2024: "240050",
-    2023: "230054",
-    2022: "220069",
-    2021: "210064",
-    2020: "200061",
-    2019: "190075",
-    2018: "180084",
-    2017: "170099",
-    2016: "160058",
-    2015: "150059",
-    2014: "140052", 
+    # 2025: "250044",
+    # 2024: "240050",
+    # 2023: "230054",
+    # 2022: "220069",
+    # 2021: "210064",
+    # 2020: "200061",
+    # 2019: "190075",
+    # 2018: "180084",
+    # 2017: "170099",
+    # 2016: "160058",
+    # 2015: "150059",
+    # 2014: "140052", 
     2013: "130034",
     2012: "120002",
     2011: "110002",
@@ -147,7 +147,8 @@ class SoFIFAScraper:
         output_path = self.save_dir / "sofifa_players_all_years.csv"
         driver = self.initialize_driver()
         
-        first_year = True
+        # first_year = True  If you run the first time
+        first_year = False # If you run the next ime
         total_rows = 0
         
         try:
