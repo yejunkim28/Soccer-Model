@@ -1,11 +1,15 @@
 import warnings
 import pandas as pd
 import soccerdata as sd
-from src.config import YEARS_DATA_DIR, FBREF_TOTAL_DIR, PLAYERS_DATA_DIR, TOTAL_FIELDERS_PATH
+import sys
+from pathlib import Path
+
+# Add project root to path so we can import model_1
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+
+from model_1.config import RAW_YEARLY_DIR, RAW_TOTAL_DIR
 
 warnings.filterwarnings("ignore")
-
-print("HELLO")
 
 class DataCollection:
     list_stats = ["standard", "shooting", "passing",
@@ -57,7 +61,7 @@ class DataCollection:
             print("All Individual Data Collected")
 
             # Use config path instead of hard-coded path
-            output_path = YEARS_DATA_DIR / f"fielders_{year}.csv"
+            output_path = RAW_YEARLY_DIR / f"fielders_{year}.csv"
             total_others.to_csv(output_path, index=False)
 
             print("Data Saved for Year:", year)
@@ -67,12 +71,13 @@ class DataCollection:
         total_df = pd.DataFrame()
         
         for i in range(1995, 2025):
-            file_path = YEARS_DATA_DIR / f"fielders_{i}.csv"
+            file_path = RAW_YEARLY_DIR / f"fielders_{i}.csv"
             df = pd.read_csv(file_path)
             total_df = pd.concat([total_df, df], ignore_index=True, axis=0)
 
-        total_df.to_csv(TOTAL_FIELDERS_PATH, index=False)
-        print(f"Total data saved to: {TOTAL_FIELDERS_PATH}")
+        total_fielders_path = RAW_TOTAL_DIR / "total_fielders.csv"
+        total_df.to_csv(total_fielders_path, index=False)
+        print(f"Total data saved to: {total_fielders_path}")
 
 
 if __name__ == "__main__":

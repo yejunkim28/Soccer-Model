@@ -50,7 +50,7 @@ EVALUATION_DIR = OUTPUTS_DIR / "evaluation" / "model_2"
 # SOURCE CODE PATHS
 # ============================================================================
 SRC_DIR = MODEL_ROOT / "src"
-DATA_SRC_DIR = SRC_DIR / "data"
+DATA_COLLECTION_DIR = SRC_DIR / "data_collection"
 FEATURES_DIR = SRC_DIR / "features"
 PREPROCESSING_SRC_DIR = SRC_DIR / "preprocessing"
 MODELS_SRC_DIR = SRC_DIR / "models"
@@ -98,7 +98,7 @@ def get_all_paths() -> dict:
             "evaluation": EVALUATION_DIR,
         },
         "src": {
-            "data": DATA_SRC_DIR,
+            "data_collection": DATA_COLLECTION_DIR,
             "features": FEATURES_DIR,
             "preprocessing": PREPROCESSING_SRC_DIR,
             "models": MODELS_SRC_DIR,

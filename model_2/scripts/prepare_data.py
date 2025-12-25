@@ -38,7 +38,6 @@ if __name__ == "__main__":
         print(f"Total records: {len(df_processed):,}")
         print(f"Total columns: {len(df_processed.columns)}")
         print(f"Unique players: {df_processed['player'].nunique():,}")
-        print(f"Missing values: {df_processed.isna().sum().sum()}")
         
         # Save to disk
         output_file = "preprocessed_data.csv"

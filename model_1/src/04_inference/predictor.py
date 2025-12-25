@@ -1,6 +1,11 @@
 import pandas as pd
 import joblib
 import os
+import sys
+from pathlib import Path
+
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 from variables import TARGET_COLS
 
 
@@ -41,7 +46,7 @@ class ModelImplementer:
     def load_models(self):
         model_cache = {}
         for w in range(3, 11):
-            path = os.path.join(self.save_path, f"model_window{w}.pkl")
+            path = os.path.join(self.save_path, "checkpoint", f"model_window{w}.pkl")
             if os.path.exists(path):
                 model_cache[w] = joblib.load(path)
                 
@@ -94,16 +99,23 @@ class ModelImplementer:
         return path
 
 
-df = pd.read_csv("./data/processed_whole/processed_data.csv")
-
-model_runner = ModelImplementer(
-    df=df,
-    save_path="./Model_1/models",
-    target_cols=TARGET_COLS
-)
-
-model_cache = model_runner.load_models()
-
-pred_df = model_runner.predict_all_players(model_cache)
-
-model_runner.save(pred_df)
+if __name__ == "__main__":
+    # Example usage - update path to use config
+    from model_1.config import PROCESSED_DIR, PREDICTIONS_DIR, MAIN_DIR
+    
+    df = pd.read_csv(PROCESSED_DIR / "processed_data.csv")
+    
+    model_runner = ModelImplementer(
+        df=df,
+        save_path=str(MAIN_DIR),
+        target_cols=TARGET_COLS
+    )
+    
+    model_cache = model_runner.load_models()
+    
+    pred_df = model_runner.predict_all_players(model_cache)
+    
+    # Save to outputs directory
+    output_path = PREDICTIONS_DIR / "player_predictions_2025.csv"
+    pred_df.to_csv(output_path, index=False)
+    print(f"Predictions saved to: {output_path}")

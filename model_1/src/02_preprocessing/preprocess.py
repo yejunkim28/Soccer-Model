@@ -5,11 +5,17 @@ from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 import numpy as np
-import variables as var
+import sys
+from pathlib import Path
 from collections import OrderedDict
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+import variables as var
+
 pd.set_option('display.max_columns', None)
 
 

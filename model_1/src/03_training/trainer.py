@@ -171,10 +171,10 @@ class ModelTrainer:
         return model, metrics_df
 
     def save(self, model, metrics_df):
+        os.makedirs(f"{self.save_path}/checkpoint", exist_ok=True)
         os.makedirs(f"{self.save_path}/metrics", exist_ok=True)
-        os.makedirs(f"{self.save_path}/models", exist_ok=True)
 
-        model_path = os.path.join(self.save_path, "models", f"model_window{self.window}.pkl")
+        model_path = os.path.join(self.save_path, "checkpoint", f"model_window{self.window}.pkl")
         metrics_path = os.path.join(self.save_path, "metrics", f"model_window{self.window}_metrics.csv")
 
         joblib.dump(model, model_path)
@@ -184,33 +184,42 @@ class ModelTrainer:
         return model_path, metrics_path
 
 
-
-df = pd.read_csv("./data/processed_whole/processed_data.csv")
-
-SAVE_PATH = "./Model_1"
-for WINDOW in range(101, 102):
-    trainer = ModelTrainer(df, WINDOW, SAVE_PATH, ['Standard_Sh/90', 'Standard_SoT/90', 'Standard_SoT%', 'Standard_G/Sh',
-        'Standard_G/SoT', 'Per 90 Minutes_Gls', 'Per 90 Minutes_Ast',
-        'Per 90 Minutes_G+A', 'Expected_G-xG', 'Expected_A-xAG',
-        'Per 90 Minutes_xG', 'Per 90 Minutes_xAG', 'Per 90 Minutes_xG+xAG',
-        'Progression_PrgC', 'Progression_PrgP', 'Progression_PrgR', 'PrgP',
-        'Carries_PrgC', 'Short_Cmp%', 'Medium_Cmp%', 'Long_Cmp%', '1/3', 'PPA',
-        'CrsPA', 'SCA_SCA90', 'GCA_GCA90', 'Tackles_TklW', 'Challenges_Tkl%',
-        'Int', 'Blocks_Blocks', 'Performance_Recov', 'Take-Ons_Att',
-        'Take-Ons_Succ%', 'Carries_Mis', 'Receiving_Rec', 'Receiving_PrgR',
-        'Aerial Duels_Won%'])
+if __name__ == "__main__":
+    # This code only runs when script is executed directly
+    import sys
+    from pathlib import Path
     
-    exclude = ['player', 'team', 'season', 'league', 'pos']
-    dataset = trainer.make_samples(df, window=WINDOW, features_exclude=exclude, target_cols=trainer.target_cols)
+    # Add project root to path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+    from model_1.config import PROCESSED_DIR, MAIN_DIR
     
-    if dataset:
-        break
+    df = pd.read_csv(PROCESSED_DIR / "processed_data.csv")
     
+    SAVE_PATH = str(MAIN_DIR)
     
-    train_df, val_df, test_df = trainer.time_split(dataset, train_until=2018, val_from=2019, val_until=2021, test_from=2022)
+    for WINDOW in range(3, 11):
+        trainer = ModelTrainer(df, WINDOW, SAVE_PATH, ['Standard_Sh/90', 'Standard_SoT/90', 'Standard_SoT%', 'Standard_G/Sh',
+            'Standard_G/SoT', 'Per 90 Minutes_Gls', 'Per 90 Minutes_Ast',
+            'Per 90 Minutes_G+A', 'Expected_G-xG', 'Expected_A-xAG',
+            'Per 90 Minutes_xG', 'Per 90 Minutes_xAG', 'Per 90 Minutes_xG+xAG',
+            'Progression_PrgC', 'Progression_PrgP', 'Progression_PrgR', 'PrgP',
+            'Carries_PrgC', 'Short_Cmp%', 'Medium_Cmp%', 'Long_Cmp%', '1/3', 'PPA',
+            'CrsPA', 'SCA_SCA90', 'GCA_GCA90', 'Tackles_TklW', 'Challenges_Tkl%',
+            'Int', 'Blocks_Blocks', 'Performance_Recov', 'Take-Ons_Att',
+            'Take-Ons_Succ%', 'Carries_Mis', 'Receiving_Rec', 'Receiving_PrgR',
+            'Aerial Duels_Won%'])
+        
+        exclude = ['player', 'team', 'season', 'league', 'pos']
+        dataset = trainer.make_samples(df, window=WINDOW, features_exclude=exclude, target_cols=trainer.target_cols)
+        
+        if trainer.too_few_players:
+            break
+        
+        train_df, val_df, test_df = trainer.time_split(dataset, train_until=2018, val_from=2019, val_until=2021, test_from=2022)
+        
+        model, metrics_df = trainer.train(train_df, val_df)
+        
+        trainer.save(model, metrics_df)
     
-    
-    model, metrics_df = trainer.train(train_df, val_df)
-    
-    trainer.save(model, metrics_df)
+    print("All models trained successfully!")
 print()
