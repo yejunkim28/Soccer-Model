@@ -37,50 +37,14 @@ class Model2Preprocessor:
         else:
             return None
         
-    def _clean_sofifa_data(self, df):
-        df.columns = df.columns.str.lower()
-        df.columns = df.columns.str.replace(" / ", "_").str.replace(" & ", "_").str.replace(" ", "_")
-    
-        df['height(cm)'] = df["height"].str.split("cm").str[0].astype(int)
-        df['weight(kg)'] = df["weight"].str.split("kg").str[0].astype(int) 
-    
-        df['foot'] = df['foot'].map({"Left": 1, "Right": 2})
-    
-    def extract_team(self, df):
-        df[['start_part', 'end_year']] = df['team_contract'].str.split(' ~ ', expand=True)
-        df[['team', 'start_year']] = df['start_part'].str.extract(r'([A-Za-z]+)(\d{4})')
-    
-    def extract_player_name(self, df):
-        df['name'] = df['name'].apply(Model2Preprocessor.extract_name_from_position)
-        df["name"] = df['name'].str.lower()
-    
-    def filter_goalkeepers(self, df):
-        df = df[df['best_position'] != "GK"].copy()
 
-    @staticmethod
-    def parse_monetary_value(row): 
-        row = row.split('€')[1]
-        if "M" in row:
-            value = float(row.replace("M", "")) * 1_000_000
-        elif "K" in row:
-            value = float(row.replace("K", "")) * 1_000
-        else:
-            value = float(row)
-
-        return value
 
     def preprocess_sofifa(self, df):
         df.drop_duplicates(inplace=True)
-        df.columns = df.columns.str.strip()
-        self._clean_sofifa_data(df)
-        
-        self.extract_team(df)
-        self.extract_player_name(df)
-        self.filter_goalkeepers(df)
-        
-        df['value(€)'] = df['value'].apply(Model2Preprocessor.parse_monetary_value)
-        df['wage(€)'] = df['wage'].apply(Model2Preprocessor.parse_monetary_value)
-        df['release_clause(€)'] = df['release_clause'].apply(Model2Preprocessor.parse_monetary_value)
+        df.columns = df.columns.str.strip().str.lower()
+
+        df['name'] = df['name'].apply(Model2Preprocessor.extract_name_from_position)
+        df["name"] = df['name'].str.lower()        
         
         return df
     
@@ -109,24 +73,11 @@ class Model2Preprocessor:
             return row
 
     @staticmethod
-    def extract_primary_position(row):
-        if "," in row:
-            row = row.split(",")[0]
-        
-        return row.strip()
+
     
-    def preprocess_fbref(self, df):
-        
-        df.columns = df.columns.str.strip()
-        df['season'] = df['season'].apply(Model2Preprocessor.parse_season_code)
-        
-        df = df[df['season'] >= 2007].copy()
-        
-        df["Tackles_Tkl%"] = df["Tackles_TklW"] / df["Tackles_Tkl"]
-        
+    def preprocess_fbref(df):
+        df['season'] = df['season'].apply(Model2Preprocessor.parse_season_code) 
         df['player'] = df['player'].apply(Model2Preprocessor.format_player_name)
-        df["pos"] = df["pos"].apply(Model2Preprocessor.extract_primary_position)
-        
         return df
     
     ### MERGE DATAFRAMES ###
@@ -150,3 +101,54 @@ class Model2Preprocessor:
         df.to_csv(output_path, index=False)
         return output_path
 
+
+
+"""
+    ## SOFIFA PREPROCESSING  ###
+    def _clean_sofifa_data(self, df):
+        df.columns = df.columns.str.lower()
+        df.columns = df.columns.str.replace(" / ", "_").str.replace(" & ", "_").str.replace(" ", "_")
+    
+        df['height(cm)'] = df["height"].str.split("cm").str[0].astype(int)
+        df['weight(kg)'] = df["weight"].str.split("kg").str[0].astype(int) 
+    
+        df['foot'] = df['foot'].map({"Left": 1, "Right": 2})
+    
+    def extract_team(self, df):
+        df[['start_part', 'end_year']] = df['team_contract'].str.split(' ~ ', expand=True)
+        df[['team', 'start_year']] = df['start_part'].str.extract(r'([A-Za-z]+)(\d{4})')
+    
+
+    def parse_monetary_value(row): 
+        row = row.split('€')[1]
+        if "M" in row:
+            value = float(row.replace("M", "")) * 1_000_000
+        elif "K" in row:
+            value = float(row.replace("K", "")) * 1_000
+        else:
+            value = float(row)
+
+        return value
+
+    Running #
+        self._clean_sofifa_data(df)
+        self.extract_team(df)
+        df['value(€)'] = df['value'].apply(Model2Preprocessor.parse_monetary_value)
+        df['wage(€)'] = df['wage'].apply(Model2Preprocessor.parse_monetary_value)
+        df['release_clause(€)'] = df['release_clause'].apply(Model2Preprocessor.parse_monetary_value)
+    
+    
+    
+    ## FBREF PREPROCESSING ###
+    def extract_primary_position(row):
+        if "," in row:
+            row = row.split(",")[0]
+        
+        return row.strip()
+
+
+    # running #
+        df["Tackles_Tkl%"] = df["Tackles_TklW"] / df["Tackles_Tkl"]
+        df["pos"] = df["pos"].apply(Model2Preprocessor.extract_primary_position)
+
+"""
