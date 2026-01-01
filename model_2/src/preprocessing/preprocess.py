@@ -72,10 +72,8 @@ class Model2Preprocessor:
         else:
             return row
 
-    @staticmethod
 
-    
-    def preprocess_fbref(df):
+    def preprocess_fbref(self, df):
         df['season'] = df['season'].apply(Model2Preprocessor.parse_season_code) 
         df['player'] = df['player'].apply(Model2Preprocessor.format_player_name)
         return df
@@ -136,8 +134,6 @@ class Model2Preprocessor:
         df['value(€)'] = df['value'].apply(Model2Preprocessor.parse_monetary_value)
         df['wage(€)'] = df['wage'].apply(Model2Preprocessor.parse_monetary_value)
         df['release_clause(€)'] = df['release_clause'].apply(Model2Preprocessor.parse_monetary_value)
-    
-    
     
     ## FBREF PREPROCESSING ###
     def extract_primary_position(row):
