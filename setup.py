@@ -43,8 +43,14 @@ def create_project_structure():
         # Model 2 data
         project_root / "model_2" / "data",
         project_root / "model_2" / "data" / "raw",
-        project_root / "model_2" / "data" / "raw" / "yearly",
-        project_root / "model_2" / "data" / "raw" / "total_raw",
+        
+        project_root / "model_2" / "data" / "raw"  / "raw_sofifa",
+        project_root / "model_2" / "data" / "raw" / "raw_sofifa" / "yearly",
+        
+        project_root / "model_2" / "data" / "raw" / "raw_fbref",
+        project_root / "model_2" / "data" / "raw" / "raw_fbref" / "yearly",
+        
+
         project_root / "model_2" / "data" / "interim",
         project_root / "model_2" / "data" / "processed",
 

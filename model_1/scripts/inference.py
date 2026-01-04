@@ -13,12 +13,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 import pandas as pd
 import importlib
 from model_1.config import PROCESSED_DIR, MAIN_DIR, PREDICTIONS_DIR
-from variables import TARGET_COLS
+from model_1.variables import TARGET_COLS
 
 # Import from numbered directory
 predictor_module = importlib.import_module('model_1.src.04_inference.predictor')
 ModelImplementer = predictor_module.ModelImplementer
-from variables import TARGET_COLS
+from model_1.variables import TARGET_COLS
 
 
 def run_inference():
