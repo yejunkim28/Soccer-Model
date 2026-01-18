@@ -1,0 +1,19 @@
+visualization:
+  plot_style: "seaborn"
+  output_format: "png"
+  dpi: 300
+  loss_curve:
+    title: "Loss Curve"
+    xlabel: "Epochs"
+    ylabel: "Loss"
+    legend: true
+  metrics_plot:
+    title: "Model Performance Metrics"
+    xlabel: "Metrics"
+    ylabel: "Scores"
+    legend: true
+  feature_importance:
+    title: "Feature Importance"
+    xlabel: "Features"
+    ylabel: "Importance Score"
+    color: "blue"
