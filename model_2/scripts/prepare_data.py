@@ -2,6 +2,7 @@
 
 import sys
 from pathlib import Path
+import pandas as pd
 
 # Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -9,8 +10,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from model_2.src.preprocessing.merge import Model2Merger
 from model_2.src.preprocessing.preprocessing import Model2Preprocessor
 
-if __name__ == "__main__":
-    # ---- Preprocessing ----
+def main():
+    # ---- First Stage: Data Merging ----
     BASE_DIR = Path(__file__).parent.parent 
     RAW_DIR = BASE_DIR / "data" / "raw"
     PROCESSED_DIR = BASE_DIR / "data" / "processed"
@@ -21,117 +22,76 @@ if __name__ == "__main__":
         raw_dir=RAW_DIR,
         processed_dir=PROCESSED_DIR,
         min_playing_time=5.0
-        )
+    )
     
-    print("Starting preprocessing pipeline...")
+    print("Starting merging pipeline...")
     print(f"Configuration: {merger}")
     
-    # Run the full pipeline
+    # Run the merging pipeline
     try:
-        df_processed = merger.fit_transform()
+        df_merged = merger.fit_transform()
         
         # Print summary
         print("\n" + "="*60)
-        print("PREPROCESSING COMPLETE")
+        print("MERGING COMPLETE")
         print("="*60)
         
-        # Save to disk
-        output_file = "preprocessed_data.csv"
-        output_path = merger.save(df_processed, output_file)
-        print(f"\nSaved to: {output_path}")
+        # Save merged data with the EXACT filename that preprocessing.py expects
+        merged_file = "preprocessed_data.csv"  # This matches what preprocessing.py looks for
+        merged_path = merger.save(df_merged, merged_file)
+        print(f"Merged data saved to: {merged_path}")
+        
+    except Exception as e:
+        print(f"ERROR during merging: {e}")
+        raise
+
+    # ---- Second Stage: Data Preprocessing ----
+    print("\nStarting preprocessing pipeline...")
+    
+    # Create final directory
+    FINAL_DIR = BASE_DIR / "data" / "final"
+    FINAL_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # Use the exact paths that Model2Preprocessor expects
+    input_file = PROCESSED_DIR / "preprocessed_data.csv"
+    output_file = FINAL_DIR / "final.csv"
+    
+    # Verify input file exists
+    if not input_file.exists():
+        print(f"ERROR: Input file does not exist: {input_file}")
+        print(f"Available files in {PROCESSED_DIR}:")
+        if PROCESSED_DIR.exists():
+            for file in PROCESSED_DIR.iterdir():
+                print(f"  - {file.name}")
+        raise FileNotFoundError(f"Required input file not found: {input_file}")
+
+    try:
+        # Initialize preprocessor with correct paths
+        preprocessor = Model2Preprocessor(
+            raw_dir=input_file,      # This should match preprocessing.py expectations
+            processed_dir=output_file # This should match preprocessing.py expectations
+        )
+        
+        # Run the preprocessing
+        preprocessor.save()  # This will load, process, and save the data
+        
+        # Load the final result to verify
+        final_df = pd.read_csv(output_file)
+        
+        print("\n" + "="*60)
+        print("PREPROCESSING COMPLETE")
+        print("="*60)
+        print(f"Final data saved to: {output_file}")
+        print(f"Final dataset shape: {final_df.shape}")
+        print(f"Final dataset columns: {len(final_df.columns)}")
         
     except Exception as e:
         print(f"ERROR during preprocessing: {e}")
+        # Print more detailed error information
+        import traceback
+        print("Full traceback:")
+        traceback.print_exc()
         raise
 
-
-
-    # ---- Preprocessing ----
-    SCRIPT_DIR = Path(__file__).resolve().parent
-    MODEL_DIR = SCRIPT_DIR.parent.parent
-
-    deleted_columns = [
-    'real_face',
-    'joined',
-    'traits',
-    'season_code',
-    'wage',
-    'club_kit_number',
-    'attacking_work_rate',
-    'traits.1',
-    'value',
-    'playstyles_+',
-    'playstyles',
-    'height',
-    'id',
-    'club_position',
-    'acceleration_type',
-    'defensive_work_rate',
-    'body_type',
-    'A-xAG',
-    'weight',
-    'loan_date_end',
-    'Rec',
-    'team_contract',
-    'release_clause', 
-    'Standard_G/SoT', 
-    'Medium_Cmp%', 
-    'Long_Cmp%', 
-    'Challenges_Tkl%', 
-    'Take-Ons_Succ%', 
-    'Take-Ons_Tkld%', 
-    'Starts_Mn/Start', 
-    'Subs_Mn/Sub', 
-    'Aerial_Duels_Won%', 
-    'Tackles_Tkl%',
-    "Short_Cmp%",
-    "Total_Cmp%",
-    "gk_diving"
-    ,"age_y"]
-
-    delete_subset = ["nation", 
-    "born",
-    'Team_Success_PPM', 
-    "Team_Success_On-Off", 
-    'Team_Success_(xG)_On-Off',
-    "Performance_2CrdY"]
-
-    object_to_num = ['overall_rating',
-    'potential',
-    'crossing',
-    'finishing',
-    'heading_accuracy',
-    'short_passing',
-    'volleys',
-    'dribbling',
-    'curve',
-    'fk_accuracy',
-    'long_passing',
-    'ball_control',
-    'acceleration',
-    'sprint_speed',
-    'agility',
-    'reactions',
-    'balance',
-    'shot_power',
-    'jumping',
-    'stamina',
-    'strength',
-    'long_shots',
-    'aggression',
-    'interceptions',
-    'attack_position',
-    'vision',
-    'penalties',
-    'composure',
-    'defensive_awareness',
-    'standing_tackle']
-
-    raw_dir = MODEL_DIR / "data" / "processed" / "preprocessed_data.csv"
-    processed_dir = MODEL_DIR / "data" / "final" / "final.csv"
-
-    preprocessor = Model2Preprocessor(
-        raw_dir=raw_dir,
-        processed_dir=processed_dir)
-    
-    preprocessor.save()
+if __name__ == "__main__":
+    main()
