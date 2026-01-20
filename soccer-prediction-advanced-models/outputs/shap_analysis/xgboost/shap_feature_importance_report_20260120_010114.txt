@@ -1,0 +1,283 @@
+================================================================================
+SHAP FEATURE IMPORTANCE ANALYSIS REPORT
+================================================================================
+
+Analysis Date: 2026-01-20 01:01:37
+Number of Targets: 14
+Number of Features: 32
+Standard: Model Output Standard (SHAP on predicted values)
+
+================================================================================
+GLOBAL FEATURE IMPORTANCE (Averaged Across All Targets)
+================================================================================
+
+Features ranked by average impact on predictions:
+
+ 1. Carries_PrgDist                     | Importance: 79.167465
+ 2. Total_PrgDist                       | Importance: 29.976925
+ 3. Progression_PrgP                    | Importance: 25.531158
+ 4. Playing_Time_90s                    | Importance: 9.903581
+ 5. Playing_Time_Min                    | Importance: 8.371262
+ 6. Carries_1/3                         | Importance: 6.123322
+ 7. Tkl+Int                             | Importance: 3.789018
+ 8. Aerial_Duels_Won                    | Importance: 2.875368
+ 9. Team_Success_PPM                    | Importance: 2.833164
+10. KP                                  | Importance: 2.510039
+11. Blocks_Blocks                       | Importance: 1.476379
+12. Team_Success_+/-90                  | Importance: 1.373039
+13. Take-Ons_Succ                       | Importance: 1.074358
+14. Team_Success_(xG)_xG+/-90           | Importance: 0.979762
+15. SCA_SCA90                           | Importance: 0.881247
+16. Starts_Starts                       | Importance: 0.878998
+17. Int                                 | Importance: 0.661168
+18. Err                                 | Importance: 0.584637
+19. Per_90_Minutes_xAG                  | Importance: 0.487032
+20. Per_90_Minutes_npxG                 | Importance: 0.484652
+21. Per_90_Minutes_xG                   | Importance: 0.452039
+22. Expected_npxG/Sh                    | Importance: 0.379834
+23. Per_90_Minutes_Gls                  | Importance: 0.335936
+24. GCA_GCA90                           | Importance: 0.273741
+25. Ast                                 | Importance: 0.253265
+26. Standard_SoT%                       | Importance: 0.229432
+27. Performance_CrdY                    | Importance: 0.228705
+28. Standard_G/Sh                       | Importance: 0.208737
+29. Expected_G-xG                       | Importance: 0.192602
+30. Per_90_Minutes_G+A                  | Importance: 0.168030
+31. Per_90_Minutes_Ast                  | Importance: 0.163903
+32. Performance_CrdR                    | Importance: 0.047683
+
+
+================================================================================
+FEATURE IMPORTANCE PER TARGET
+================================================================================
+
+
+Target: Per_90_Minutes_npxG
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Per_90_Minutes_npxG                 | Impact: 0.095933
+   2. Per_90_Minutes_xG                   | Impact: 0.015679
+   3. Expected_npxG/Sh                    | Impact: 0.000683
+   4. Total_PrgDist                       | Impact: 0.000546
+   5. Per_90_Minutes_Gls                  | Impact: 0.000266
+   6. Progression_PrgP                    | Impact: 0.000118
+   7. Standard_SoT%                       | Impact: 0.000079
+   8. SCA_SCA90                           | Impact: 0.000078
+   9. Int                                 | Impact: 0.000068
+  10. KP                                  | Impact: 0.000060
+
+
+Target: Per_90_Minutes_xG
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Per_90_Minutes_xG                   | Impact: 0.110990
+   2. Per_90_Minutes_npxG                 | Impact: 0.015377
+   3. Per_90_Minutes_Gls                  | Impact: 0.001361
+   4. Standard_G/Sh                       | Impact: 0.000434
+   5. Expected_G-xG                       | Impact: 0.000324
+   6. Playing_Time_Min                    | Impact: 0.000123
+   7. Per_90_Minutes_G+A                  | Impact: 0.000098
+   8. KP                                  | Impact: 0.000061
+   9. Standard_SoT%                       | Impact: 0.000056
+  10. Expected_npxG/Sh                    | Impact: 0.000055
+
+
+Target: Standard_Sh/90
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Per_90_Minutes_npxG                 | Impact: 0.832916
+   2. Expected_npxG/Sh                    | Impact: 0.370058
+   3. Per_90_Minutes_xG                   | Impact: 0.122267
+   4. SCA_SCA90                           | Impact: 0.061124
+   5. Standard_G/Sh                       | Impact: 0.016380
+   6. Team_Success_PPM                    | Impact: 0.015405
+   7. KP                                  | Impact: 0.013311
+   8. Standard_SoT%                       | Impact: 0.009634
+   9. Team_Success_+/-90                  | Impact: 0.009499
+  10. Total_PrgDist                       | Impact: 0.008274
+
+
+Target: Per_90_Minutes_xAG
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Per_90_Minutes_xAG                  | Impact: 0.075048
+   2. SCA_SCA90                           | Impact: 0.000777
+   3. Per_90_Minutes_Ast                  | Impact: 0.000334
+   4. KP                                  | Impact: 0.000103
+   5. GCA_GCA90                           | Impact: 0.000036
+   6. Playing_Time_Min                    | Impact: 0.000035
+   7. Ast                                 | Impact: 0.000029
+   8. Playing_Time_90s                    | Impact: 0.000024
+   9. Per_90_Minutes_xG                   | Impact: 0.000024
+  10. Per_90_Minutes_G+A                  | Impact: 0.000021
+
+
+Target: KP
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. KP                                  | Impact: 10.569818
+   2. Ast                                 | Impact: 1.540928
+   3. SCA_SCA90                           | Impact: 0.826498
+   4. Carries_1/3                         | Impact: 0.620220
+   5. Playing_Time_90s                    | Impact: 0.415660
+   6. Per_90_Minutes_xAG                  | Impact: 0.400089
+   7. Playing_Time_Min                    | Impact: 0.336666
+   8. Starts_Starts                       | Impact: 0.147035
+   9. Take-Ons_Succ                       | Impact: 0.132767
+  10. GCA_GCA90                           | Impact: 0.098508
+
+
+Target: SCA_SCA90
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. SCA_SCA90                           | Impact: 0.904463
+   2. Per_90_Minutes_xAG                  | Impact: 0.181450
+   3. KP                                  | Impact: 0.038667
+   4. GCA_GCA90                           | Impact: 0.021338
+   5. Playing_Time_Min                    | Impact: 0.013068
+   6. Aerial_Duels_Won                    | Impact: 0.012990
+   7. Per_90_Minutes_xG                   | Impact: 0.010764
+   8. Team_Success_PPM                    | Impact: 0.010700
+   9. Take-Ons_Succ                       | Impact: 0.010013
+  10. Ast                                 | Impact: 0.009964
+
+
+Target: Progression_PrgP
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Progression_PrgP                    | Impact: 32.651394
+   2. Carries_PrgDist                     | Impact: 6.077474
+   3. Total_PrgDist                       | Impact: 4.494121
+   4. SCA_SCA90                           | Impact: 1.385205
+   5. Playing_Time_90s                    | Impact: 0.813142
+   6. Tkl+Int                             | Impact: 0.453771
+   7. Carries_1/3                         | Impact: 0.427200
+   8. KP                                  | Impact: 0.413836
+   9. Per_90_Minutes_xG                   | Impact: 0.294691
+  10. Starts_Starts                       | Impact: 0.272304
+
+
+Target: Progression_PrgC
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Carries_1/3                         | Impact: 14.692199
+   2. Carries_PrgDist                     | Impact: 7.516839
+   3. Take-Ons_Succ                       | Impact: 3.936299
+   4. KP                                  | Impact: 2.698077
+   5. Total_PrgDist                       | Impact: 2.358403
+   6. Progression_PrgP                    | Impact: 1.997625
+   7. Per_90_Minutes_xAG                  | Impact: 0.836131
+   8. Per_90_Minutes_npxG                 | Impact: 0.559760
+   9. Playing_Time_Min                    | Impact: 0.553987
+  10. Tkl+Int                             | Impact: 0.451603
+
+
+Target: Carries_PrgDist
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Carries_PrgDist                     | Impact: 863.259338
+   2. Progression_PrgP                    | Impact: 88.923973
+   3. Total_PrgDist                       | Impact: 55.232712
+   4. Carries_1/3                         | Impact: 55.138992
+   5. Playing_Time_90s                    | Impact: 29.522074
+   6. KP                                  | Impact: 4.553930
+   7. Take-Ons_Succ                       | Impact: 4.430185
+   8. Aerial_Duels_Won                    | Impact: 3.290313
+   9. Team_Success_+/-90                  | Impact: 2.900204
+  10. Playing_Time_Min                    | Impact: 2.880158
+
+
+Target: Tkl+Int
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Tkl+Int                             | Impact: 26.450554
+   2. Int                                 | Impact: 1.419699
+   3. Blocks_Blocks                       | Impact: 0.099871
+   4. Playing_Time_Min                    | Impact: 0.069651
+   5. Playing_Time_90s                    | Impact: 0.047452
+   6. SCA_SCA90                           | Impact: 0.042978
+   7. Total_PrgDist                       | Impact: 0.036999
+   8. Take-Ons_Succ                       | Impact: 0.022386
+   9. Carries_1/3                         | Impact: 0.019245
+  10. Carries_PrgDist                     | Impact: 0.018167
+
+
+Target: Blocks_Blocks
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Blocks_Blocks                       | Impact: 8.720550
+   2. Tkl+Int                             | Impact: 1.078919
+   3. Playing_Time_Min                    | Impact: 0.452260
+   4. Playing_Time_90s                    | Impact: 0.156990
+   5. Starts_Starts                       | Impact: 0.080494
+   6. Int                                 | Impact: 0.074669
+   7. Aerial_Duels_Won                    | Impact: 0.039617
+   8. Total_PrgDist                       | Impact: 0.022098
+   9. Progression_PrgP                    | Impact: 0.019696
+  10. Carries_PrgDist                     | Impact: 0.016772
+
+
+Target: Aerial_Duels_Won
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Aerial_Duels_Won                    | Impact: 19.259521
+   2. Playing_Time_90s                    | Impact: 1.043457
+   3. Playing_Time_Min                    | Impact: 0.802709
+   4. Carries_PrgDist                     | Impact: 0.585871
+   5. SCA_SCA90                           | Impact: 0.357608
+   6. Carries_1/3                         | Impact: 0.310628
+   7. Starts_Starts                       | Impact: 0.283026
+   8. Per_90_Minutes_npxG                 | Impact: 0.126802
+   9. Per_90_Minutes_xG                   | Impact: 0.094986
+  10. Total_PrgDist                       | Impact: 0.090226
+
+
+Target: Touches_Touches
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Total_PrgDist                       | Impact: 292.140747
+   2. Progression_PrgP                    | Impact: 110.978096
+   3. Carries_PrgDist                     | Impact: 80.639381
+   4. Playing_Time_Min                    | Impact: 67.821579
+   5. Playing_Time_90s                    | Impact: 67.526978
+   6. Tkl+Int                             | Impact: 20.835619
+   7. Team_Success_PPM                    | Impact: 15.935069
+   8. Aerial_Duels_Won                    | Impact: 11.053867
+   9. Carries_1/3                         | Impact: 10.626275
+  10. KP                                  | Impact: 10.457861
+
+
+Target: Receiving_Rec
+--------------------------------------------------------------------------------
+Top 10 features:
+   1. Carries_PrgDist                     | Impact: 150.208099
+   2. Progression_PrgP                    | Impact: 122.771500
+   3. Total_PrgDist                       | Impact: 65.237015
+   4. Playing_Time_Min                    | Impact: 43.990520
+   5. Playing_Time_90s                    | Impact: 38.770901
+   6. Team_Success_PPM                    | Impact: 22.328569
+   7. Team_Success_+/-90                  | Impact: 7.965662
+   8. Team_Success_(xG)_xG+/-90           | Impact: 6.871385
+   9. Aerial_Duels_Won                    | Impact: 6.336764
+  10. KP                                  | Impact: 6.323345
+
+
+================================================================================
+INTERPRETATION GUIDE
+================================================================================
+
+SHAP values represent the contribution of each feature to the prediction:
+
+- Positive SHAP: Feature increases the predicted value
+- Negative SHAP: Feature decreases the predicted value
+- Magnitude: How strongly the feature affects the prediction
+
+The importance values shown are mean absolute SHAP values,
+representing the average magnitude of each feature's impact.
+
+Key Insights:
+- Features at the top have the strongest influence on predictions
+- Features with high importance across multiple targets are globally important
+- Features with high importance for specific targets are specialists
+- Low importance suggests the feature may be redundant or uninformative
+
