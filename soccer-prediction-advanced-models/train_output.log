@@ -1,0 +1,240 @@
+/Users/lionlucky7/01.Projects/In-progress/soccer_prediction/.venv/lib/python3.13/site-packages/keras/src/layers/core/dense.py:106: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().__init__(activity_regularizer=activity_regularizer, **kwargs)
+🚀 LightGBM Multi-Target Training Pipeline
+==================================================
+
+🚀 Soccer Prediction Model Training
+============================================================
+
+📊 Loading data from: ../model_2/data/final/final.csv
+🚀 STARTING DATA PREPROCESSING
+==================================================
+Mode: simple
+Input shape: (9859, 224)
+
+📊 Simple preprocessing mode
+🔄 Aggregating player-season data...
+✓ Aggregated to 9461 player-season records
+✓ Available features: 32/32
+✓ Available targets: 14/14
+✓ Final dataset - Features: (9461, 32), Targets: (9461, 14)
+✓ Data loaded: 9461 samples, 32 features, 14 targets
+✓ Features: ['Playing_Time_Min', 'Playing_Time_90s', 'Starts_Starts', 'Per_90_Minutes_Gls', 'Per_90_Minutes_Ast', 'Per_90_Minutes_G+A', 'Per_90_Minutes_xG', 'Per_90_Minutes_xAG', 'Per_90_Minutes_npxG', 'Standard_SoT%', 'Standard_G/Sh', 'Expected_npxG/Sh', 'Expected_G-xG', 'KP', 'Ast', 'Total_PrgDist', 'Progression_PrgP', 'SCA_SCA90', 'GCA_GCA90', 'Carries_PrgDist', 'Carries_1/3', 'Take-Ons_Succ', 'Tkl+Int', 'Int', 'Blocks_Blocks', 'Aerial_Duels_Won', 'Performance_CrdY', 'Performance_CrdR', 'Err', 'Team_Success_PPM', 'Team_Success_+/-90', 'Team_Success_(xG)_xG+/-90']
+✓ Targets: ['Per_90_Minutes_npxG', 'Per_90_Minutes_xG', 'Standard_Sh/90', 'Per_90_Minutes_xAG', 'KP', 'SCA_SCA90', 'Progression_PrgP', 'Progression_PrgC', 'Carries_PrgDist', 'Tkl+Int', 'Blocks_Blocks', 'Aerial_Duels_Won', 'Touches_Touches', 'Receiving_Rec']
+✓ Train: 7568 samples, Test: 1893 samples
+
+============================================================
+Training XGBOOST...
+============================================================
+
+✓ Training completed!
+  Train R²: 0.9962, Test R²: 0.9658
+  Train MAE: 8.6143, Test MAE: 13.7601
+
+📦 Saving outputs...
+  💾 Model saved: outputs/models/xgboost_20260119_212700.pkl
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_feature_importance_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_predictions_vs_actual_train_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_predictions_vs_actual_test_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_residuals_train_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_residuals_test_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_metrics_mae_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_metrics_mse_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/xgboost/xgboost_metrics_r2_20260119_212700.png
+
+============================================================
+Training LIGHTGBM...
+============================================================
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.001581 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 0.149859
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.001011 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 0.162673
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000754 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 1.466191
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000667 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 0.104658
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000663 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 17.688821
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000729 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 2.394551
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000621 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 72.963002
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000672 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 33.429836
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000697 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 1646.485597
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000733 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 49.065936
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000750 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 20.079017
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000703 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 28.292548
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000672 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 1068.159619
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000694 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 4439
+[LightGBM] [Info] Number of data points in the train set: 7568, number of used features: 32
+[LightGBM] [Info] Start training from score 704.235729
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+[LightGBM] [Warning] min_data_in_leaf is set=20, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=20
+
+✓ Training completed!
+  Train R²: 0.9826, Test R²: 0.9643
+  Train MAE: 8.4054, Test MAE: 12.3547
+
+📦 Saving outputs...
+  💾 Model saved: outputs/models/lightgbm_20260119_212700.pkl
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_feature_importance_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_predictions_vs_actual_train_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_predictions_vs_actual_test_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_residuals_train_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_residuals_test_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_metrics_mae_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_metrics_mse_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/lightgbm/lightgbm_metrics_r2_20260119_212700.png
+
+============================================================
+Training NEURAL_NETWORK...
+============================================================
+[1m  1/237[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m23s[0m 101ms/step[1m102/237[0m [32m━━━━━━━━[0m[37m━━━━━━━━━━━━[0m [1m0s[0m 497us/step [1m203/237[0m [32m━━━━━━━━━━━━━━━━━[0m[37m━━━[0m [1m0s[0m 497us/step[1m237/237[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 862us/step[1m237/237[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 932us/step
+[1m 1/60[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 13ms/step[1m60/60[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 761us/step
+/Users/lionlucky7/01.Projects/In-progress/soccer_prediction/soccer-prediction-advanced-models/train.py:572: UserWarning: Glyph 127942 (\N{TROPHY}) missing from font(s) Arial.
+  fig.savefig(summary_path, dpi=300, bbox_inches='tight')
+
+✓ Training completed!
+  Train R²: 0.1668, Test R²: 0.3752
+  Train MAE: 25.6674, Test MAE: 25.6335
+
+📦 Saving outputs...
+  💾 Model saved: outputs/models/neural_network_20260119_212700.pkl
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_loss_curves_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_predictions_vs_actual_train_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_predictions_vs_actual_test_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_residuals_train_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_residuals_test_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_metrics_mae_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_metrics_mse_20260119_212700.png
+  📊 Visualization saved: outputs/visualizations/neural_network/neural_network_metrics_r2_20260119_212700.png
+
+============================================================
+📊 FINAL RESULTS
+============================================================
+                train_mae   test_mae  ...  train_r2   test_r2
+xgboost          8.614267  13.760122  ...  0.996198  0.965801
+lightgbm         8.405410  12.354698  ...  0.982630  0.964268
+neural_network  25.667440  25.633547  ...  0.166814  0.375162
+
+[3 rows x 6 columns]
+
+💾 Results saved: outputs/logs/training_results_20260119_212700.csv
+💾 Comparison dashboard saved: outputs/visualizations/model_comparison_20260119_212700.png
+
+✅ Training completed successfully!
+📁 All outputs saved to: outputs/

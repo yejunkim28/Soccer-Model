@@ -1,0 +1,100 @@
+🚀 LightGBM Multi-Target Training Pipeline
+==================================================
+
+================================================================================
+🔍 SHAP EXPLAINABILITY ANALYSIS
+================================================================================
+
+Model: XGBOOST
+Standard: Model Output Standard (feature impact on predicted values)
+
+📊 Loading data from: ../model_2/data/final/final.csv
+🚀 STARTING DATA PREPROCESSING
+==================================================
+Mode: simple
+Input shape: (9859, 224)
+
+📊 Simple preprocessing mode
+🔄 Aggregating player-season data...
+✓ Aggregated to 9461 player-season records
+✓ Available features: 32/32
+✓ Available targets: 14/14
+✓ Final dataset - Features: (9461, 32), Targets: (9461, 14)
+✓ Data loaded: 9461 samples, 32 features, 14 targets
+📦 Loading model: outputs/models/xgboost_20260119_212700.pkl
+✓ Model loaded successfully
+
+🧮 Computing SHAP values for 14 targets...
+   Analyzing 500 samples
+  [1/14] Computing SHAP for: Per_90_Minutes_npxG
+  [2/14] Computing SHAP for: Per_90_Minutes_xG
+  [3/14] Computing SHAP for: Standard_Sh/90
+  [4/14] Computing SHAP for: Per_90_Minutes_xAG
+  [5/14] Computing SHAP for: KP
+  [6/14] Computing SHAP for: SCA_SCA90
+  [7/14] Computing SHAP for: Progression_PrgP
+  [8/14] Computing SHAP for: Progression_PrgC
+  [9/14] Computing SHAP for: Carries_PrgDist
+  [10/14] Computing SHAP for: Tkl+Int
+  [11/14] Computing SHAP for: Blocks_Blocks
+  [12/14] Computing SHAP for: Aerial_Duels_Won
+  [13/14] Computing SHAP for: Touches_Touches
+  [14/14] Computing SHAP for: Receiving_Rec
+✓ SHAP values computed for all 14 targets
+
+================================================================================
+📊 GENERATING SHAP VISUALIZATIONS
+================================================================================
+
+📊 Creating global SHAP summary plot...
+  💾 Saved: outputs/shap_analysis/xgboost/shap_global_summary_20260120_010114.png
+
+📊 Creating SHAP summary plots for top 5 targets...
+  Top 5 most predictable targets:
+    1. Carries_PrgDist                (importance: 35.2166)
+    2. Touches_Touches                (importance: 23.3813)
+    3. Receiving_Rec                  (importance: 16.1134)
+    4. Progression_PrgP               (importance: 1.5225)
+    5. Progression_PrgC               (importance: 1.2419)
+  💾 Saved: outputs/shap_analysis/xgboost/shap_summary_Carries_PrgDist_20260120_010114.png
+  💾 Saved: outputs/shap_analysis/xgboost/shap_summary_Touches_Touches_20260120_010114.png
+  💾 Saved: outputs/shap_analysis/xgboost/shap_summary_Receiving_Rec_20260120_010114.png
+  💾 Saved: outputs/shap_analysis/xgboost/shap_summary_Progression_PrgP_20260120_010114.png
+  💾 Saved: outputs/shap_analysis/xgboost/shap_summary_Progression_PrgC_20260120_010114.png
+
+📊 Creating dependence plots for Carries_PrgDist...
+  💾 Saved: outputs/shap_analysis/xgboost/shap_dependence_Carries_PrgDist_20260120_010114.png
+
+📊 Creating waterfall plot for Carries_PrgDist (sample 0)...
+  💾 Saved: outputs/shap_analysis/xgboost/shap_waterfall_Carries_PrgDist_sample0_20260120_010114.png
+
+📝 Generating feature importance report...
+  💾 Report saved: outputs/shap_analysis/xgboost/shap_feature_importance_report_20260120_010114.txt
+  💾 Importance matrix saved: outputs/shap_analysis/xgboost/shap_importance_matrix_20260120_010114.csv
+
+================================================================================
+✅ SHAP ANALYSIS COMPLETE
+================================================================================
+
+Top 10 Most Influential Features (Global):
+--------------------------------------------------------------------------------
+ 1. Carries_PrgDist                     | Importance: 79.167465
+ 2. Total_PrgDist                       | Importance: 29.976925
+ 3. Progression_PrgP                    | Importance: 25.531158
+ 4. Playing_Time_90s                    | Importance: 9.903581
+ 5. Playing_Time_Min                    | Importance: 8.371262
+ 6. Carries_1/3                         | Importance: 6.123322
+ 7. Tkl+Int                             | Importance: 3.789018
+ 8. Aerial_Duels_Won                    | Importance: 2.875368
+ 9. Team_Success_PPM                    | Importance: 2.833164
+10. KP                                  | Importance: 2.510039
+
+📁 All outputs saved to: outputs/shap_analysis/xgboost/
+
+💡 Key Insights:
+   - SHAP analysis reveals which features drive model predictions
+   - High importance = strong influence on predicted performance
+   - Use these insights to focus on key performance indicators
+   - Features with consistent importance across targets are globally critical
+
+================================================================================
