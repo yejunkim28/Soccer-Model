@@ -1,0 +1,89 @@
+================================================================================
+SHAP ANALYSIS REPORT: xG & DEFENSIVE METRICS
+================================================================================
+
+Generated: 2026-01-21 22:29:55
+Model: XGBoost Multi-Target
+Samples analyzed: 100
+
+================================================================================
+xG/ATTACKING METRICS
+================================================================================
+
+Targets analyzed:
+  - Per_90_Minutes_xG
+  - Per_90_Minutes_npxG
+  - Standard_Sh/90
+
+Top 15 Features by Importance:
+--------------------------------------------------------------------------------
+Tkl+Int                             | Importance: 10.151910
+Aerial_Duels_Won                    | Importance: 6.780488
+Blocks_Blocks                       | Importance: 3.056169
+Int                                 | Importance: 0.517733
+Playing_Time_90s                    | Importance: 0.425065
+Playing_Time_Min                    | Importance: 0.407033
+Carries_PrgDist                     | Importance: 0.182829
+Carries_1/3                         | Importance: 0.106309
+Starts_Starts                       | Importance: 0.094774
+SCA_SCA90                           | Importance: 0.094625
+Per_90_Minutes_npxG                 | Importance: 0.039691
+Total_PrgDist                       | Importance: 0.035308
+Per_90_Minutes_xG                   | Importance: 0.031607
+Expected_npxG/Sh                    | Importance: 0.023583
+KP                                  | Importance: 0.020278
+
+================================================================================
+DEFENSIVE METRICS
+================================================================================
+
+Targets analyzed:
+  - Tkl+Int
+  - Blocks_Blocks
+  - Aerial_Duels_Won
+
+Top 15 Features by Importance:
+--------------------------------------------------------------------------------
+Tkl+Int                             | Importance: 10.151910
+Aerial_Duels_Won                    | Importance: 6.780488
+Blocks_Blocks                       | Importance: 3.056169
+Int                                 | Importance: 0.517733
+Playing_Time_90s                    | Importance: 0.425065
+Playing_Time_Min                    | Importance: 0.407033
+Carries_PrgDist                     | Importance: 0.182829
+Carries_1/3                         | Importance: 0.106309
+Starts_Starts                       | Importance: 0.094774
+SCA_SCA90                           | Importance: 0.094625
+Per_90_Minutes_npxG                 | Importance: 0.039691
+Total_PrgDist                       | Importance: 0.035308
+Per_90_Minutes_xG                   | Importance: 0.031607
+Expected_npxG/Sh                    | Importance: 0.023583
+KP                                  | Importance: 0.020278
+
+================================================================================
+KEY INSIGHTS
+================================================================================
+
+Common features (appear in both top 10):
+  - SCA_SCA90
+  - Playing_Time_Min
+
+xG-specific features:
+  - Standard_SoT%
+  - KP
+  - Per_90_Minutes_xG
+  - Per_90_Minutes_npxG
+  - Total_PrgDist
+  - Team_Success_+/-90
+  - Expected_npxG/Sh
+  - Standard_G/Sh
+
+Defensive-specific features:
+  - Tkl+Int
+  - Int
+  - Starts_Starts
+  - Blocks_Blocks
+  - Aerial_Duels_Won
+  - Carries_1/3
+  - Carries_PrgDist
+  - Playing_Time_90s
