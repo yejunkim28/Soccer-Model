@@ -1,0 +1,56 @@
+# Core ML Libraries
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+lightgbm>=4.0.0
+catboost>=1.2.0  # Optional ensemble member
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+polars>=0.19.0  # For large dataset processing
+
+# Statistical Models
+scipy>=1.11.0
+statsmodels>=0.14.0  # For Poisson regression
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+kaleido>=0.2.1  # For static image export
+
+# Dashboard
+streamlit>=1.25.0
+streamlit-aggrid>=0.3.4  # Interactive tables
+
+# Web Scraping
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+selenium>=4.10.0  # If dynamic scraping needed
+lxml>=4.9.0  # XML/HTML parser
+
+# Progress & Utilities
+tqdm>=4.65.0
+joblib>=1.3.0
+pyyaml>=6.0.0
+python-dotenv>=1.0.0
+
+# File Format Support
+openpyxl>=3.1.0  # Excel files
+xlrd>=2.0.1
+
+# Logging & Monitoring
+loguru>=0.7.0
+
+# Optional: Deep Learning (if using neural networks)
+# tensorflow>=2.13.0
+# torch>=2.0.0
+
+# Development Tools (optional)
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.4.0
+
+# Existing project dependencies (shared)
+# (Include any from model_1/model_2 that are needed)
